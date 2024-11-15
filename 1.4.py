@@ -15,12 +15,13 @@ class Hero:
         self.force = randint(1, 6)
         self.defense = randint(1, 6)
         self.name = name
+        self.playerstats = 0
 
     def attaquer(self):
         return self.force + randint(1, 6)
 
     def dommage(self, attaquer):
-        self.hp = self.attaquer() - self.defense
+        self.hp -= self.attaquer() - self.defense
 
     def vivant(self):
         if self.hp > 0:
@@ -28,9 +29,17 @@ class Hero:
         else:
             return False
 
+    def playerstats(self):
+        self.strength: int
+        self.dex: int
+        self.con: int
+        self.intelligence: int
+        self.wis: int
+        self.cha: int
 
-h = Hero("bob")
-print(f"Point de vie: {h.hp} "
-      f"Force: {h.force} "
-      f"Defense: {h.defense} "
-      f"Nom: {h.name}")
+        self.playerstats = (randint(1, 20),
+                            randint(1, 20),
+                            randint(1, 20),
+                            randint(1, 20),
+                            randint(1, 20),
+                            randint(1, 20))
