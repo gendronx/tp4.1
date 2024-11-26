@@ -9,42 +9,74 @@ from random import randint
 
 
 @dataclass
+class NpcStats:
+    def __init__(self):
+        self.strength: int = randint(3, 18)
+        self.dex: int = randint(3, 18)
+        self.con: int = randint(3, 18)
+        self.intelligence: int = randint(3, 18)
+        self.wis: int = randint(3, 18)
+        self.cha: int = randint(3, 18)
+
+
 class Npc:
     def __init__(self):
+        self.npc_stats = NpcStats()
         self.hp = randint(1, 20)
-        self.strength = randint(3, 18)
-        self.dex = randint(3, 18)
-        self.con = randint(3, 18)
-        self.intelligence = randint(3, 18)
-        self.wis = randint(3, 18)
-        self.cha = randint(3, 18)
         self.armure = randint(1, 12)
         self.name = ""
         self.race = ""
         self.species = ""
         self.profession = ""
 
-    def affichernpc(self):
-        print(f"Nom: {n.name}"
-              f" Race: {n.race}"
-              f" Espece: {n.species}"
-              f" Profession: {n.profession}"
-              f" Points de vie {n.hp}"
-              f" Armure: {n.armure}"
-              f" Force: {n.strength}"
-              f" Agilite: {n.dex}"
-              f" Constitution: {n.con}"
-              f" Intelligence: {n.intelligence}"
-              f" Sagesse: {n.wis}"
-              f" Charisme: {n.cha}")
-
-    class Kobold:
-        def attaquer(self, target):
-            degat = randint(1, 6)
-
-        def subirdammage(self):
-            randint(1, 6)
+    def afficher_npc(self):
+        print(f"Nom: {self.name}"
+              f" Race: {self.race}"
+              f" Espece: {self.species}"
+              f" Profession: {self.profession}"
+              f" Points de vie {self.hp}"
+              f" Armure: {self.armure}"
+              f" Force: {self.npc_stats.strength}"
+              f" Agilite: {self.npc_stats.dex}"
+              f" Constitution: {self.npc_stats.con}"
+              f" Intelligence: {self.npc_stats.intelligence}"
+              f" Sagesse: {self.npc_stats.wis}"
+              f" Charisme: {self.npc_stats.cha}")
 
 
-n = Npc()
-print(n.affichernpc())
+class Kobold(Npc):
+    def __init__(self):
+        super().__init__()
+
+    def attaquer(self):
+        degat_roll = randint(1, 6)
+
+    def subir_dommage(self, degat):
+        self.hp = self.hp - degat
+
+
+class Hero(Npc):
+
+    def __init__(self):
+        super().__init__()
+
+    def attaquer(self):
+        degat_roll = randint(1, 20)
+        if degat_roll == 20:
+            degat = randint(1, 8)
+
+        elif degat_roll == 1:
+            degat = 0
+
+        else:
+            if degat_roll >= k.armure:
+                degat = randint(1, 6)
+
+            else:
+                degat = 0
+
+    def subir_dommage(self, degat):
+        self.hp = self.hp - degat
+
+
+k = Kobold()
