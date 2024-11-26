@@ -1,11 +1,24 @@
 """
 Xavier Gendron
 404
-tp4 2
+tp4 4.3
 """
 
 from dataclasses import dataclass
 from random import randint
+from enum import Enum
+
+
+class Alignement(Enum):
+    Lawful_good = 1
+    Lawful_neutral = 2
+    Lawful_evil = 3
+    Neutral_good = 4
+    Neutral = 5
+    Neutral_evil = 6
+    Chaotic_good = 7
+    Chaotic_neutral = 8
+    Chaotic_evil = 9
 
 
 @dataclass
