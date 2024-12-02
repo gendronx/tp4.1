@@ -10,15 +10,16 @@ from enum import Enum
 
 
 class Alignement(Enum):
-    Lawful_good = 1
-    Lawful_neutral = 2
-    Lawful_evil = 3
-    Neutral_good = 4
-    Neutral = 5
-    Neutral_evil = 6
-    Chaotic_good = 7
-    Chaotic_neutral = 8
-    Chaotic_evil = 9
+    Lawful_good = 0
+    Lawful_neutral = 1
+    Lawful_evil = 2
+    Neutral_good = 3
+    Neutral = 4
+    Neutral_evil = 5
+    Chaotic_good = 6
+    Chaotic_neutral = 7
+    Chaotic_evil = 8
+    Non_defini = 9
 
 
 @dataclass
@@ -41,25 +42,24 @@ class Item:
 class Inventory:
     def __init__(self):
         self.list_item = []
-        self.name_item = Item.name
-        self.quantite_item = Item.quantite
 
-    def ajouter_item(self, item):
+    def ajouter_item(self, new_item):
         """
         si item présent, additionner la quantité
         sinon si item pas présent, ajouter automatiqurement
         """
-        self.list_item.index(self.name_item)
-        if self.name_item in self.list_item:
-            self.list_item.append(item)
+        for item in self.list_item:
+            if item.name == new_item.name:
+                item.quantite += new_item.quantite
 
-        elif self.name_item not in self.list_item:
-            self.list_item.append(item)
+            elif item.name != new_item.name:
+                self.list_item.append(new_item)
 
     def retirer_item(self, item):
         self.list_item.remove(item)
 
     def voir_contenu(self):
+        print(f"Inventaire: ")
         print(self.list_item)
 
 
@@ -79,7 +79,7 @@ class Npc:
         self.race = ""
         self.species = ""
         self.profession = ""
-        self.alignement = "Non defini"
+        self.alignement = ""
 
     def afficher_npc(self):
         print(f"Nom: {self.name}"
