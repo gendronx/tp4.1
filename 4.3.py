@@ -35,8 +35,8 @@ class NpcStats:
 
 @dataclass
 class Item:
-    quantite: int
     name: str
+    quantite: int
 
 
 class Inventory:
@@ -48,26 +48,48 @@ class Inventory:
         si item présent, additionner la quantité
         sinon si item pas présent, ajouter automatiqurement
         """
-        for item in self.list_item:
-            if item.name == new_item.name:
-                item.quantite += new_item.quantite
+        if len(self.list_item) > 0:
+            for item in self.list_item:
+                if item.name == new_item.name:
+                    item.quantite += new_item.quantite
+                    return
 
-            elif item.name != new_item.name:
+            if item.name != new_item.name:
                 self.list_item.append(new_item)
+        else:
+            self.list_item.append(new_item)
 
-    def retirer_item(self, item):
-        self.list_item.remove(item)
+    def retirer_item(self, delete_item):
+        if len(self.list_item) == 0:
+            print("Il n'y a rien dans l'inventaire")
+        else:
+            for item in self.list_item:
+                if item.name == delete_item.name:
+                    item.quantite -= delete_item.quantite
+                    if item.quantite > 0:
+                        return
+
+                    else:
+                        print("Vous n'avez pas autant d'item dans votre inventaire")
+
+                    if item.name != delete_item.name:
+                        print(f"{delete_item} n'est pas dans l'inventaire")
+
 
     def voir_contenu(self):
-        print(f"Inventaire: ")
+        print("Inventaire: ")
         print(self.list_item)
 
 
 inv = Inventory()
 
-inv.ajouter_item(Item(10, "Or"))
-inv.ajouter_item(Item(10, "Or"))
+inv.ajouter_item(Item("Or", 10))
+inv.ajouter_item(Item("Or", 10))
+inv.ajouter_item(Item("Argent", 10))
+inv.ajouter_item(Item("Argent", 100))
 print(inv.list_item)
+inv.retirer_item(Item("Or", 100))
+inv.voir_contenu()
 
 
 class Npc:
