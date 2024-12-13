@@ -51,12 +51,13 @@ class Inventory:
         if len(self.list_item) > 0:
             for item in self.list_item:
                 if item.name == new_item.name:
+                    # Modifier la quantité puisque item déjà présent
                     item.quantite += new_item.quantite
                     return
-
-            if item.name != new_item.name:
-                self.list_item.append(new_item)
+            # Ajouter nouvel item puisqu'il n'était pas dans la liste.
+            self.list_item.append(new_item)
         else:
+            # Ajouter nouvel item puisque la liste est vide.
             self.list_item.append(new_item)
 
     def retirer_item(self, delete_item):
@@ -65,16 +66,18 @@ class Inventory:
         else:
             for item in self.list_item:
                 if item.name == delete_item.name:
-                    item.quantite -= delete_item.quantite
-                    if item.quantite > 0:
-                        return
+                    if item.quantite >= delete_item.quantite:
+                        item.quantite -= delete_item.quantite
+                        if item.quantite == 0:
+                            self.list_item.remove(item)
+                            return
+                        else:
+                            return
 
                     else:
                         print("Vous n'avez pas autant d'item dans votre inventaire")
 
-                    if item.name != delete_item.name:
-                        print(f"{delete_item} n'est pas dans l'inventaire")
-
+            print(f"{delete_item} n'est pas dans l'inventaire")
 
     def voir_contenu(self):
         print("Inventaire: ")
@@ -88,7 +91,9 @@ inv.ajouter_item(Item("Or", 10))
 inv.ajouter_item(Item("Argent", 10))
 inv.ajouter_item(Item("Argent", 100))
 print(inv.list_item)
-inv.retirer_item(Item("Or", 100))
+inv.retirer_item(Item("Or", 10))
+inv.retirer_item(Item("Or", 10))
+
 inv.voir_contenu()
 
 
@@ -141,10 +146,11 @@ class Kobold(Npc):
         self.hp = self.hp - degat
 
 
-class Hero(Npc, Inventory):
+class Hero(Npc):
 
     def __init__(self):
         super().__init__()
+        self.backpack = Inventory()
 
     def attaquer(self):
         degat_roll = randint(1, 20)
